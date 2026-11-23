@@ -1,0 +1,15 @@
+{
+  "name": "phishguard-ai",
+  "version": "1.0.0",
+  "description": "AI-Powered Phishing URL Detection & Cyber Threat Analysis System (B.Tech CS Final Year Project)",
+  "scripts": {
+    "server": "cd server && npm start",
+    "server:dev": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "client:build": "cd client && npm run build",
+    "ml": "cd ml_service && uvicorn main:app --host 127.0.0.1 --port 8000 --reload",
+    "ml:train": "cd ml_service && python train_model.py"
+  },
+  "author": "Prateek Mishra (pm6383760-dotcom)",
+  "license": "MIT"
+}
