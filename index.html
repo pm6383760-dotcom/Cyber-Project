@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberShield AI | Threat Detection</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-shield-halved"></i></div>
+      <div>
+        <h2>CyberShield<span>AI</span></h2>
+        <small>THREAT INTELLIGENCE</small>
+      </div>
+    </div>
+
+    <div class="nav-label">WORKSPACE</div>
+    <nav>
+      <a href="#" class="nav-link active" data-page="dashboard">
+        <i class="fa-solid fa-chart-pie"></i> Dashboard
+      </a>
+      <a href="#" class="nav-link" data-page="email">
+        <i class="fa-solid fa-envelope"></i> Email Scanner
+      </a>
+      <a href="#" class="nav-link" data-page="url">
+        <i class="fa-solid fa-link"></i> URL Analyzer
+      </a>
+      <a href="#" class="nav-link" data-page="file">
+        <i class="fa-solid fa-file-shield"></i> File Scanner
+      </a>
+
+      <div class="nav-label">MANAGEMENT</div>
+      <a href="#" class="nav-link" data-page="history">
+        <i class="fa-solid fa-clock-rotate-left"></i> Scan History
+      </a>
+      <a href="#" class="nav-link" data-page="analytics">
+        <i class="fa-solid fa-chart-line"></i> Analytics
+      </a>
+      <a href="#" class="nav-link" data-page="about">
+        <i class="fa-solid fa-circle-info"></i> About Project
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="system-status">
+        <span class="pulse-dot"></span>
+        <div>
+          <strong>System Operational</strong>
+          <small>Browser analysis engine</small>
+        </div>
+      </div>
+      <div class="user-card">
+        <div class="avatar">CS</div>
+        <div>
+          <strong>Security Analyst</strong>
+          <small>Demo Account</small>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
+      <div class="breadcrumb">CyberShield AI / <span id="currentPageName">Dashboard</span></div>
+      <div class="topbar-right">
+        <div class="live-status"><span class="pulse-dot"></span> LIVE</div>
+        <div class="top-avatar">CS</div>
+      </div>
+    </header>
+
+    <div class="content" id="content">
+
+      <!-- DASHBOARD -->
+      <section class="page active" id="dashboard">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow"><i class="fa-solid fa-shield"></i> SECURITY OVERVIEW</div>
+            <h1>Security <span>Dashboard</span></h1>
+            <p>Monitor, analyze and detect potential cyber threats in real time.</p>
+          </div>
+          <button class="btn btn-primary" onclick="showPage('email')">
+            <i class="fa-solid fa-plus"></i> New Scan
+          </button>
+        </div>
+
+        <div class="notice">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>Browser-based heuristic analysis demo. Results are indicative, not a verified antivirus or AI model.</span>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-top"><span>Total Scans</span><i class="fa-solid fa-layer-group blue"></i></div>
+            <h2 id="totalScans">0</h2><small>Analysis records</small>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top"><span>Threats Detected</span><i class="fa-solid fa-bug red"></i></div>
+            <h2 id="threatCount">0</h2><small>High-risk findings</small>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top"><span>Safe Results</span><i class="fa-solid fa-circle-check green"></i></div>
+            <h2 id="safeCount">0</h2><small>Low-risk submissions</small>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top"><span>Average Risk</span><i class="fa-solid fa-gauge purple"></i></div>
+            <h2 id="avgRisk">0%</h2><small>Across recorded scans</small>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="panel chart-panel">
+            <div class="panel-header">
+              <div><h3>Threat Activity</h3><p>Risk scores from recent scans</p></div>
+              <span class="panel-badge">SCAN DATA</span>
+            </div>
+            <canvas id="activityChart"></canvas>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <div><h3>Scan Distribution</h3><p>By analysis type</p></div>
+            </div>
+            <canvas id="distributionChart"></canvas>
+          </div>
+        </div>
+
+        <div class="panel table-panel">
+          <div class="panel-header">
+            <div><h3>Recent Scans</h3><p>Latest analysis activity</p></div>
+            <button class="btn btn-ghost" onclick="showPage('history')">View All <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ITEM</th><th>TYPE</th><th>DATE</th><th>RISK</th><th>STATUS</th></tr></thead>
+              <tbody id="recentTable"><tr><td colspan="5" class="empty">No scans performed yet.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- EMAIL SCANNER -->
+      <section class="page" id="email">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow">THREAT ANALYSIS / EMAIL</div>
+            <h1>Email <span>Phishing Detector</span></h1>
+            <p>Analyze email content to identify suspicious phishing indicators.</p>
+          </div>
+        </div>
+        <div class="scanner-layout">
+          <div class="panel scanner-panel">
+            <div class="panel-header"><h3><i class="fa-solid fa-envelope blue"></i> Email Analysis</h3></div>
+            <form id="emailForm">
+              <label>Email Sender</label>
+              <input id="emailSender" placeholder="e.g. support@example.com">
+              <label>Email Subject</label>
+              <input id="emailSubject" placeholder="Enter email subject">
+              <label>Email Body</label>
+              <textarea id="emailBody" rows="7" placeholder="Paste email content here..."></textarea>
+              <button type="submit" class="btn btn-primary full"><i class="fa-solid fa-magnifying-glass"></i> Analyze Email</button>
+            </form>
+          </div>
+          <div class="panel info-panel">
+            <h3><i class="fa-solid fa-lightbulb purple"></i> Detection Indicators</h3>
+            <ul class="indicator-list">
+              <li><i class="fa-solid fa-check"></i> Urgent language & threats</li>
+              <li><i class="fa-solid fa-check"></i> Password / OTP requests</li>
+              <li><i class="fa-solid fa-check"></i> Financial requests</li>
+              <li><i class="fa-solid fa-check"></i> Suspicious links</li>
+              <li><i class="fa-solid fa-check"></i> Sender domain anomalies</li>
+              <li><i class="fa-solid fa-check"></i> Reward / prize bait</li>
+            </ul>
+            <div class="tip-box"><i class="fa-solid fa-shield-halved"></i><p>Never share your password or OTP in response to an unsolicited email.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- URL ANALYZER -->
+      <section class="page" id="url">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow">THREAT ANALYSIS / URL</div>
+            <h1>URL <span>Analyzer</span></h1>
+            <p>Inspect web addresses for common suspicious patterns.</p>
+          </div>
+        </div>
+        <div class="panel scanner-panel">
+          <div class="panel-header"><h3><i class="fa-solid fa-link blue"></i> URL Risk Analysis</h3></div>
+          <form id="urlForm">
+            <label>Website URL</label>
+            <div class="input-with-icon">
+              <i class="fa-solid fa-globe"></i>
+              <input id="urlInput" placeholder="https://example.com" required>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-radar"></i> Analyze URL</button>
+          </form>
+          <div class="url-tips">
+            <div><i class="fa-solid fa-lock green"></i><strong>HTTPS</strong><p>Encryption is not proof of trust.</p></div>
+            <div><i class="fa-solid fa-eye red"></i><strong>Lookalike Domains</strong><p>Check spelling and subdomains.</p></div>
+            <div><i class="fa-solid fa-forward purple"></i><strong>Shortened URLs</strong><p>Hidden destinations can be risky.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FILE SCANNER -->
+      <section class="page" id="file">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow">THREAT ANALYSIS / FILE</div>
+            <h1>File <span>Scanner</span></h1>
+            <p>Inspect file metadata, extension and calculate a SHA-256 fingerprint.</p>
+          </div>
+        </div>
+        <div class="panel scanner-panel">
+          <div class="panel-header"><h3><i class="fa-solid fa-file-shield blue"></i> File Inspection</h3></div>
+          <div class="drop-zone" id="dropZone">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <h3>Drag & Drop your file</h3>
+            <p>or click below to browse your device</p>
+            <input type="file" id="fileInput" hidden>
+            <button type="button" class="btn btn-primary" id="browseBtn">Choose File</button>
+            <small>Maximum file size: 10 MB</small>
+          </div>
+          <div class="file-note"><i class="fa-solid fa-triangle-exclamation"></i> Files are not uploaded or executed. This is a metadata-based demonstration, not malware scanning.</div>
+        </div>
+      </section>
+
+      <!-- HISTORY -->
+      <section class="page" id="history">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow">MANAGEMENT / HISTORY</div>
+            <h1>Scan <span>History</span></h1>
+            <p>Review previous scans stored in this browser.</p>
+          </div>
+          <button class="btn btn-danger-outline" id="clearHistory"><i class="fa-solid fa-trash"></i> Clear History</button>
+        </div>
+        <div class="panel table-panel">
+          <div class="table-tools">
+            <input id="historySearch" placeholder="Search scans...">
+            <select id="historyFilter">
+              <option value="all">All types</option>
+              <option value="Email">Email</option>
+              <option value="URL">URL</option>
+              <option value="File">File</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ITEM</th><th>TYPE</th><th>DATE</th><th>RISK</th><th>STATUS</th><th>ACTION</th></tr></thead>
+              <tbody id="historyTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ANALYTICS -->
+      <section class="page" id="analytics">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow">MANAGEMENT / ANALYTICS</div>
+            <h1>Security <span>Analytics</span></h1>
+            <p>Insights based on locally saved scan records.</p>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-top"><span>Total Scans</span><i class="fa-solid fa-layer-group blue"></i></div><h2 id="analyticsTotal">0</h2></div>
+          <div class="stat-card"><div class="stat-top"><span>High Risk</span><i class="fa-solid fa-triangle-exclamation red"></i></div><h2 id="analyticsHigh">0</h2></div>
+          <div class="stat-card"><div class="stat-top"><span>Medium Risk</span><i class="fa-solid fa-shield purple"></i></div><h2 id="analyticsMedium">0</h2></div>
+          <div class="stat-card"><div class="stat-top"><span>Low Risk</span><i class="fa-solid fa-circle-check green"></i></div><h2 id="analyticsLow">0</h2></div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="panel"><div class="panel-header"><h3>Risk Levels</h3></div><canvas id="riskChart"></canvas></div>
+          <div class="panel"><div class="panel-header"><h3>Scan Types</h3></div><canvas id="typeChart"></canvas></div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="page" id="about">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow">PROJECT INFORMATION</div>
+            <h1>About <span>CyberShield AI</span></h1>
+            <p>Academic cybersecurity awareness & threat analysis platform.</p>
+          </div>
+        </div>
+        <div class="panel about-panel">
+          <div class="about-hero-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <h2>CyberShield AI</h2>
+          <p class="about-tagline">Detect threats. Understand risks. Stay protected.</p>
+          <p>CyberShield AI is a browser-based cybersecurity demonstration platform designed to analyze email text, website URLs and file metadata for common suspicious patterns. It assigns heuristic risk scores and provides educational explanations of detected indicators.</p>
+          <h3>Project Objectives</h3>
+          <ul>
+            <li>Improve awareness of phishing and suspicious links.</li>
+            <li>Demonstrate automated risk scoring.</li>
+            <li>Explain potential threat indicators.</li>
+            <li>Provide scan history and reports.</li>
+            <li>Demonstrate front-end web development skills.</li>
+          </ul>
+          <h3>Technology Stack</h3>
+          <div class="tech-chips"><span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>LocalStorage</span><span>Web Crypto API</span><span>Chart.js</span></div>
+          <h3>Limitations</h3>
+          <p>This project uses local heuristic rules, not a trained machine-learning model. It does not connect to threat-intelligence databases, execute files, upload files, or verify whether a website is safe. Results should not be considered definitive security advice.</p>
+        </div>
+      </section>
+
+      <!-- RESULTS MODAL -->
+      <div class="modal-overlay" id="resultModal">
+        <div class="modal panel">
+          <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+          <div id="resultContent"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div id="toastContainer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
